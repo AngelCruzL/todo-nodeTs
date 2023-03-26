@@ -1,22 +1,21 @@
-import { Task } from './tasks.entity';
-import { Repository } from 'typeorm';
-
-import { AppDataSource } from '../index';
+import { Request, Response } from 'express';
 import { instanceToPlain } from 'class-transformer';
 
-export class TasksController {
-  constructor(
-    private readonly taskRepository: Repository<Task> = AppDataSource.getRepository(
-      Task,
-    ),
-  ) {}
+import { AppDataSource } from '../index';
+import { Task } from './tasks.entity';
 
-  public async getAll(): Promise<Task[]> {
+class TasksController {
+  public async getAll(
+    req: Request,
+    res: Response,
+  ): Promise<Response> {
     let allTasks: Task[] = [];
 
     // Fetch all tasks using the repository
     try {
-      allTasks = await this.taskRepository.find({
+      allTasks = await AppDataSource.getRepository(
+        Task,
+      ).find({
         order: {
           date: 'ASC',
         },
@@ -24,10 +23,16 @@ export class TasksController {
 
       // Convert the tasks instance to an array of objects
       allTasks = instanceToPlain(allTasks) as Task[];
+
+      return res.status(200).json(allTasks);
     } catch (err) {
       console.log(err);
+      return res.status(500).json({
+        message: 'Something went wrong',
+      });
     }
-
-    return allTasks;
   }
 }
+
+const tasksController = new TasksController();
+export { tasksController };

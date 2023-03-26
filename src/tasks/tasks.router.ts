@@ -1,20 +1,12 @@
 import { Request, Response, Router } from 'express';
 import { validationResult } from 'express-validator';
 
-import { TasksController } from './tasks.controller';
+import { tasksController } from './tasks.controller';
 import { createValidator } from './tasks.validator';
 
 export const tasksRouter: Router = Router();
 
-tasksRouter.get(
-  '/tasks',
-  async (req: Request, res: Response) => {
-    const taskController = new TasksController();
-    const allTasks = await taskController.getAll();
-
-    res.status(200).json(allTasks);
-  },
-);
+tasksRouter.get('/tasks', tasksController.getAll);
 
 tasksRouter.post(
   '/tasks',
