@@ -8,7 +8,7 @@ import { tasksRouter } from './tasks';
 const app: Express = express();
 dotenv.config();
 
-express.json();
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(cors());
