@@ -42,3 +42,24 @@ export const createValidator: ValidationChain[] = [
       'Status can only be Todo, In Progress or Completed',
     ),
 ];
+
+export const updateValidator = [
+  body('id')
+    .not()
+    .isEmpty()
+    .withMessage('Id is required')
+    .trim()
+    .isString()
+    .withMessage('Id must be a valid uuid format'),
+
+  body('status')
+    .trim()
+    .isIn([
+      Status.todo,
+      Status.inProgress,
+      Status.completed,
+    ])
+    .withMessage(
+      'Status can only be Todo, In Progress or Completed',
+    ),
+];
