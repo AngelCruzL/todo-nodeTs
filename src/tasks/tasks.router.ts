@@ -1,7 +1,15 @@
 import { Request, Response, Router } from 'express';
 
+import { TasksController } from './tasks.controller';
+
 export const tasksRouter: Router = Router();
 
-tasksRouter.get('/tasks', (req: Request, res: Response) => {
-  res.send('Hello World');
-});
+tasksRouter.get(
+  '/tasks',
+  async (req: Request, res: Response) => {
+    const taskController = new TasksController();
+    const allTasks = await taskController.getAll();
+
+    res.status(200).json(allTasks);
+  },
+);

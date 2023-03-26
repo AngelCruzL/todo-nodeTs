@@ -36,4 +36,4 @@ AppDataSource.initialize()
     console.log(err);
   });
 
-app.get('/', tasksRouter);
+app.use('/', tasksRouter);
