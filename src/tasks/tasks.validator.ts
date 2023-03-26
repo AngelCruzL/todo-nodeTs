@@ -28,7 +28,7 @@ export const createValidator: ValidationChain[] = [
     .trim()
     .isIn([Priority.low, Priority.normal, Priority.high])
     .withMessage(
-      'Priority can only be low, normal or high',
+      'Priority can only be Low, Normal or High',
     ),
 
   body('status')
