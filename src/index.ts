@@ -1,11 +1,9 @@
-import express, {
-  Express,
-  Request,
-  Response,
-} from 'express';
+import express, { Express } from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import { DataSource } from 'typeorm';
+
+import { tasksRouter } from './tasks';
 
 const app: Express = express();
 dotenv.config();
@@ -28,10 +26,6 @@ export const AppDataSource = new DataSource({
 
 const PORT = process.env.PORT || 3000;
 
-app.get('/', (req: Request, res: Response) => {
-  res.send('Hello World');
-});
-
 AppDataSource.initialize()
   .then(() => {
     app.listen(PORT);
@@ -41,3 +35,5 @@ AppDataSource.initialize()
     console.log('Database sync failed');
     console.log(err);
   });
+
+app.get('/', tasksRouter);
